@@ -10,7 +10,9 @@
 ![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776ab)
 [![Licence PolyForm Strict](https://img.shields.io/badge/licence-PolyForm%20Strict-e67e22)](LICENSE)
 
-<img src="docs/images/1-machine-carte.png" width="780" alt="Niveau 1 : la carte de zeta, les zéros sont tous sur la ligne 1/2">
+### [▶ Jouer en ligne, gratuitement](https://snowdiablo.github.io/riemann-zero-hunt/)
+
+<a href="https://snowdiablo.github.io/riemann-zero-hunt/"><img src="docs/images/1-machine-carte.png" width="780" alt="Niveau 1 : la carte de zeta, les zéros sont tous sur la ligne 1/2"></a>
 
 </div>
 
@@ -46,7 +48,9 @@ Zeta, c'est une somme de petites flèches. Quand le "temps" avance, chaque flèc
 
 ## Lancer le jeu
 
-**Windows (le plus simple)**
+**En ligne (rien à installer)** : [snowdiablo.github.io/riemann-zero-hunt](https://snowdiablo.github.io/riemann-zero-hunt/). Sans compte, sans pub, sans cookie. Souris, clavier ou doigt. Plus confortable sur ordinateur ou tablette ; sur téléphone, tourne-le à l'horizontale.
+
+**Sur ton PC, Windows**
 1. Installe [Python](https://www.python.org/downloads/).
 2. Télécharge ce dépôt (bouton vert **Code**, puis **Download ZIP**) et décompresse-le.
 3. Double-clic sur **`Lancer le jeu.bat`**. La première fois, il installe numpy tout seul.
@@ -87,6 +91,7 @@ Le jeu ne triche pas : tout est calculé pour de vrai.
 
 - **Zeta** est calculée avec l'algorithme de Borwein (sur la fonction eta), et à gauche de la ligne 1/2 avec l'équation fonctionnelle de Riemann (le fameux miroir).
 - **`tests/test_maths.py`** compare le jeu à une deuxième méthode totalement différente (Euler-Maclaurin) sur 3000 points : écart maximum d'environ 0,000000000002. Il vérifie aussi les 10 premiers zéros, ζ(2) = π²/6, ζ(-1) = -1/12, que la capture d'un zéro ne se trompe jamais et que le thermomètre ne ment pas.
+- **La version en ligne** (`docs/maths.js` et `docs/jeu.js`) fait exactement les mêmes calculs : le test la compare à la version Python (écart d'environ 0,0000000000001).
 - **Ce qui est simplifié, et dit clairement dans le jeu :**
   - niveau 2 : le point violet est un zéro *imaginaire*, juste pour montrer la règle du miroir ;
   - niveau 3 : on utilise eta (zeta avec des + et des -), qui a exactement les mêmes zéros sur la ligne 1/2 ;
@@ -94,7 +99,7 @@ Le jeu ne triche pas : tout est calculé pour de vrai.
 
 Lancer les tests :
 ```bash
-python tests/test_maths.py     # les maths
+python tests/test_maths.py     # les maths (et la version en ligne, si Node.js est installé)
 python tests/captures.py       # ouvre le jeu, teste chaque niveau, refait les captures (Windows)
 ```
 
@@ -117,7 +122,7 @@ Everything is computed for real (Borwein's algorithm + the functional equation),
 
 The game was inspired by the result Anthropic announced in August 2026: more than two thirds of the zeros lie on the critical line. The proof was first produced by an internal research version of Claude, then verified by two mathematicians ([arXiv:2609.02882](https://arxiv.org/abs/2609.02882)).
 
-Run it: `pip install -r requirements.txt` then `python riemann_jeu.py` (see the install steps above for Linux and Mac).
+Play online, nothing to install: [snowdiablo.github.io/riemann-zero-hunt](https://snowdiablo.github.io/riemann-zero-hunt/). Or run it locally: `pip install -r requirements.txt` then `python riemann_jeu.py` (see the install steps above for Linux and Mac).
 
 License: [PolyForm Strict 1.0.0](LICENSE). You may view the code and play for free, for any noncommercial purpose. You may not sell it, change it, or share copies or modified versions. Ask first for anything else.
 

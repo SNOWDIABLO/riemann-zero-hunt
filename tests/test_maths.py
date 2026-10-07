@@ -161,5 +161,31 @@ try:
 except Exception as exc:
     ok(False, f"ESPACE gardé 10 min : plantage {exc!r}")
 
+# 9. version web (docs/maths.js) : mêmes résultats que Python
+import json
+import shutil
+import subprocess
+
+if shutil.which("node") is None:
+    print("SKIP version web : node n'est pas installé")
+else:
+    random.seed(3)
+    pts = [[random.uniform(-1, 2), random.uniform(0.3, 50)] for _ in range(1500)]
+    pts += [[0.5, g] for g in rj.ZEROS] + [[0.62, 14.0], [0.9, 21.3], [1.3, 30.6]]
+    web = json.loads(subprocess.run(["node", os.path.join(os.path.dirname(__file__), "test_web.js")],
+                                    input=json.dumps(pts), capture_output=True, text=True, check=True).stdout)
+    ok(np.max(np.abs(np.array(web["poids"]) - rj._POIDS)) < 1e-13, "web : poids de Borwein identiques")
+    pire = max(abs(complex(*z) - rj.zeta1(complex(*p))) / max(1.0, abs(rj.zeta1(complex(*p))))
+               for p, z in zip(pts, web["zeta"]))
+    ok(pire < 1e-9, f"web : zeta identique à Python ({pire:.1e})")
+    pire = max(abs(complex(*e) - rj.eta1(complex(*p))) for p, e in zip(pts, web["eta"]))
+    ok(pire < 1e-9, f"web : eta identique à Python ({pire:.1e})")
+    for p, z in zip(pts[-3:], web["newton"][-3:]):
+        zp = rj.newton_zero(complex(*p))
+        ok(z is not None and zp is not None and abs(complex(*z) - zp) < 1e-8,
+           f"web : Newton trouve le même zéro depuis {p}")
+    ref = rj.carte_couleurs(np.array([0, 0.05, 0.3, 1, 3, 1e9], dtype=complex))
+    ok(np.max(np.abs(np.array(web["couleurs"]) - ref.astype(int))) <= 1, "web : mêmes couleurs de carte")
+
 print("\nTOUT EST BON" if ok.echecs == 0 else f"\n{ok.echecs} ÉCHEC(S)")
 sys.exit(1 if ok.echecs else 0)
